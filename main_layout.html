@@ -1,0 +1,21 @@
+<!DOCTYPE>
+<html>
+    <header>
+        <title>
+            Some title.
+        </title>       
+        
+        <% my_partial_view = render(:partial => 'layouts/my_partial_view') %>
+        
+        <% if content_for?(:my_partial_view_css_and_js_setting) %>
+            <%= yield(:my_partial_view_css_and_js_setting) %>
+        <% end %>
+        
+    </header>
+    <body>
+        <%= my_partial_view%>
+    </body>
+    <footer>
+        <p>Some footer.</p>
+    </footer>
+</html>
