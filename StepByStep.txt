@@ -1,0 +1,61 @@
+// STEP 1
+// Create a controller named Tester with "index" action
+$ rails generate controller Tester index
+
+// STEP 2
+// In ~/config/routes.rb file, add the following line
+root 'tester#index'
+
+// STEP 3
+// In ~/app/views/layouts folder, create a file named "tester_layout.html.erb"
+// That will be our main layout (we do not use the default layout in Rails)
+// In ~/app/controllers/tester_controller.rb file, add the following line
+class TesterController < ApplicationController
+  layout 'tester_layout'
+  def index
+  end
+end
+
+// STEP 4
+// Create a list of the following empty files:
+//   + In ~/app/assets/javascripts folder, add a file named "tester.js"
+//   + In ~/app/assets/stylesheets folder, add a file named "tester.css"
+//   + In ~/app/views/tester folder, add a file named "_partial0001.html.erb"
+
+// STEP 5
+// In ~/app/views/layouts/tester_layout.html.erb file, add the following code
+<!DOCTYPE>
+<html>
+    <header>
+        <title>
+            Some Title.
+        </title>       
+        
+        <% partial0001 = render(:partial => 'tester/partial0001') %>
+        
+        <% if content_for?(:partial0001_setting) %>
+            <%= yield(:partial0001_setting) %>
+        <% end %>
+        
+        <h1>Some Header</h1>
+    </header>
+    <body>
+        <%= partial0001%>
+    </body>
+    <footer>
+        <p>Some Footer</p>
+    </footer>
+</html>
+
+// STEP 6
+// In ~/app/views/tester/_partial0001.html.erb file, add the following code
+<% content_for :partial0001_setting do %>
+    <link rel="stylesheet" media="all" href="/assets/tester.css" />
+    <script src="/assets/tester.js"></script>
+<% end %>
+<p id="partial0001_id_0001" class="partial0001_class_0001">This is my partial view.</p>
+
+// STEP 7
+// Now we can imagine how it works.
+// The view in the file named "_partial0001.html.erb" would be displayed in the layout
+//    with the style indicated by the file named "tester.css" and javascript by "tester.js"
