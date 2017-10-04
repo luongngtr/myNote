@@ -1,0 +1,50 @@
+// Create a model named "Type" with one column named "name"
+$ rails generate model Type name:string
+
+// Create a model named "Picture" with one column named "name"
+$ rails generate model Picture name:string type:references
+
+// In ~/models folder, modify two files named "picture.rb" and "type.rb" 
+// In the file "picture.rb"
+class Picture < ActiveRecord::Base
+  belongs_to :type
+end
+// In the file "type.rb"
+class Type < ActiveRecord::Base
+    has_many :pictures
+end
+
+// Generate the database
+$ rake db:create
+$ rake db:migrate 
+
+// Reset the database
+$ rake db:reset
+
+// Drop the database, the re-create it again
+$ rake db:drop
+$ rake db:create
+$ rake db:migrate
+
+// Undo the process of the migration
+$ rake db:rollback STEP=1
+
+// Check how many tables in the database
+$ rails console
+> ActiveRecord::Base.connection.tables
+
+// Check the column names of the table called "Type"
+$ rails console
+> Type.columns.map(&:name)
+
+// Insert data into the table by putting some commands in the file called seeds.rb in 
+//    the folder ~/db/. Then, use the following command
+$ rake db:seed
+// Ex:
+#Type.create([{ name: 'Bride And Groom'}, { name: 'Bride And Friends'}, { name: 'Groom And Friends'}, { name: 'Friends'} ])
+#Picture.create(name: 'pic0001', :type => Type.find_by_name('Bride And Groom'))
+#Picture.create(name: 'pic0002', :type => Type.find_by_name('Bride And Groom'))
+#Picture.create(name: 'pic0003', :type => Type.find_by_name('Friends'))
+#Picture.create(name: 'pic0004', :type => Type.find_by_name('Bride And Friends'))
+#Picture.create(name: 'pic0005', :type => Type.find_by_name('Bride And Friends'))
+#Picture.create(name: 'pic0006', :type => Type.find_by_name('Groom And Friends'))
