@@ -1,0 +1,13 @@
+// In ~/views/ folder, create a folder named "pics" and in ~/views/pics folder, create a file named "_pic.html.erb"
+// The content of "_pic.html.erb" is given by
+<% if pic.id == firstid %>
+  <% keke = "active" %>
+<% else %>
+  <% keke = " " %>
+<% end %>
+<div class="<%= "carousel-item " + keke %>" >
+  <img class="d-block w-100" src=<%= "/assets/"+ pic.name+".jpg" %> alt="<%= pic.name+".jpg" %>" style="width: 100%; height: 500px;">
+</div>
+
+// In the main layout file, add this line to call a partial view
+<%= render partial: 'pics/pic', :collection => @pics, :locals => {:firstid => @firstid} %>
