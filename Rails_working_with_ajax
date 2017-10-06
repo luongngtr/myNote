@@ -1,0 +1,31 @@
+// In the main layout, be sure that there are the following lines in <head></head> tag
+<%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+<%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+<%= csrf_meta_tags %>
+
+// In the "link_to" or "form_for", add "remote: true"
+// For example:
+<%= link_to type.name, bootstrap_library_path(type), :class => "nav-link "+ keke, remote: true %>
+
+// In some action in the controller, add "respond_to"
+// For example:
+def show
+  @types = Type.all
+  if params[:id] == '1'
+    @pics = Picture.all
+  else
+    @pics = Type.find_by_id(params[:id]).pictures
+  end
+  @clickedid = params[:id].to_i
+  respond_to do |format| 
+    format.js 
+    format.html 
+  end
+  # render :layout => false
+end
+
+// In ~/views/<name_of_controller>/ folder, add a file named "<name_of_action>.js.erb"
+// For example: in ~/views/bootstrap_library/ folder, add a file named show.js.erb
+// Make a content for the file show.js.erb as following
+$('#my-first-update').html('<%= escape_javascript render partial: 'types/type', :collection => @types, :locals => {:clickedid => @clickedid}  %>');
+$('#my-second-update').html('<%= escape_javascript render partial: 'pics/pic', :collection => @pics, :locals => {:firstid => @firstid} %>');
