@@ -1,5 +1,6 @@
 // STEP 1
 Find SSH Keys from Cloud9 and then add this SSH Keys to Heroku
+Upload data form the Cloud9 workspace to GitHub first following the file "myNote/Adding_to_GitHub" 
 
 // STEP 2
 In a Cloud9 workspace console, type
