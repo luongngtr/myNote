@@ -33,6 +33,8 @@ gem 'rails_12factor'
 ------------------------------------------------------------------------------------------------------------  
 // After modifying Gemfile, save the file and run 
 $ bundle install
+$ git init
+$ git remote add heroku git@heroku.com:album-designer.git
 $ git add .
 $ git commit -m "<your commit message>"
 
