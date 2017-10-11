@@ -17,3 +17,7 @@ $ git remote add origin git@github.com:luongngtr/album-designer.git
 $ git add . 
 $ git commit -m "First commit"
 $ git push -u origin master
+
+// STEP 4
+Remove the git 
+$ git remote rm origin
