@@ -19,5 +19,9 @@ $ git commit -m "First commit"
 $ git push -u origin master
 
 // STEP 4
-Remove the git 
+Show all remote
+$ git remote show
+
+// STEP 5
+Remove the "origin' from the git remote 
 $ git remote rm origin
