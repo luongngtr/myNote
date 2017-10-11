@@ -45,3 +45,15 @@ $ heroku run rake db:seed
 // STEP 5
 // To run Rails console on Heroku server
 $ heroku run rails console
+
+// STEP 6
+// In a remote console (for example the linux console in a Cloud9 workspace), 
+//    turn off the Heroku application by the following commands 
+$ heroku maintenance:on
+// or
+$ heroku ps:scale worker=0
+
+// Turn on the Heroku application
+$ heroku maintenance:off
+// Check the state of maintenance 
+$ heroku maintenance
