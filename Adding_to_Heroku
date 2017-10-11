@@ -1,0 +1,47 @@
+// STEP 1
+Find SSH Keys from Cloud9 and then add this SSH Keys to Heroku
+
+// STEP 2
+In a Cloud9 workspace console, type
+$ heroku create album-designer
+// If there is some error, then look at "myNote/Adding_to_GitHub" file and try some commands in there
+// The above comment will create an application in your Heroku account in a remote way
+// The Heroku application is named album-designer
+// It will ask your email and password (for Heroku account) to confirm
+
+// STEP 3 
+// Before uploading rails application from Cloud9 to Heroku, we have to prepare something as follows.
+// Open the Gemfile of the rails application (it is in the root folder of the application)
+// Modify the Gemfile by adding the following lines
+-------------------------------------------------------------------------------------------------------------
+Gemfile
+-------------------------------------------------------------------------------------------------------------
+source 'https://rubygems.org'
+
+# Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
+gem 'rails', '4.1.6'
+# Use sqlite3 as the database for Active Record
+gem 'sqlite3', group: :development # Added development group.
+gem 'pg', group: :production # Added postgres and made it production only.
+# Use 'rails_12factor' as a gem made by Heroku to make tweaks to your app for deployment on their platform
+gem 'rails_12factor'
+
+# Use SCSS for stylesheets
+  gem 'sass-rails', '~> 4.0.3'
+...
+------------------------------------------------------------------------------------------------------------  
+// After modifying Gemfile, save the file and run 
+$ bundle install
+$ git add .
+$ git commit -m "<your commit message>"
+
+// STEP 4
+// Push data of the rails application to Heroku
+$ git push heroku master
+// Setup database
+$ heroku run rake db:migrate
+$ heroku run rake db:seed
+
+// STEP 5
+// To run Rails console on Heroku server
+$ heroku run rails console
