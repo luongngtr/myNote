@@ -1,0 +1,19 @@
+// STEP 1
+Login to an account of https://github.com 
+For example: account name is luongngtr
+If having no account, then create a new one
+
+// STEP 2
+In this account, create a new repository,
+but NOT choose "Initialize this repository with a README"
+For example: the repository name is album-designer
+
+// STEP 3
+Go to the place of the folder that we want to upload to GitHub
+For example: go to a Cloud9 workspace console and type the following commands
+$ git init
+// Initialized empty Git repository in /...(some path here)
+$ git remote add origin git@github.com:luongngtr/album-designer.git 
+$ git add . 
+$ git commit -m "First commit"
+$ git push -u origin master
