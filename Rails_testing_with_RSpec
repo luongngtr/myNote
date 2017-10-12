@@ -1,0 +1,29 @@
+// Recall that there are several of test levels. First, unit test is to test an individual
+//    component. Second, integration test is to test components including their interaction 
+//    with each other. Finally, there are other higher test level that we skip here.
+
+// STEP 1: Install the RSpec gem
+-------------------------------------------------------------------
+In the file: ~/Gemfile
+-------------------------------------------------------------------
+group :development, :test do
+  gem 'rspec-rails', '~> 3.6'
+end
+-------------------------------------------------------------------
+$ bundle install
+$ rails generate rspec:install
+// Execute all of the file "*_spec.rb" in the folder ~/spec/
+$ bundle exec rspec
+// Run only a subset of the "*_spec.rb" files
+// Run only model specs
+$ bundle exec rspec spec/models
+// Run only specs for AccountsController
+$ bundle exec rspec spec/controllers/accounts_controller_spec.rb
+// Run only spec on line 8 of AccountsController
+$ bundle exec rspec spec/controllers/accounts_controller_spec.rb:8
+// In Rails 4, create a binstub for the rspec command so it can be run via bin/rspec
+$ bundle binstubs rspec-core
+// Run a test file
+$ rspec spec/<name_of_the_test_file>_spec.rb
+
+... to be continued ...
