@@ -1,0 +1,45 @@
+// Rails 4 model types include :binary, :boolean, :date, :datetime, :decimal, :float
+//    :integer, :bigint, :primary_key, :references, :string, :text, :time, :timestamp
+
+// STEP 1
+// Generate two models: Type and Vid
+$ rails generate model Type name:string
+$ rails generate model Vid name:string address:string description:text
+// Generate a migration to link these two models
+$ rails generate migration create_types_vids
+-------------------------------------------------------------------
+// In the file: ~/db/migrate/(some number)_create_types_vids.rb
+-------------------------------------------------------------------
+class CreateRestaurantsUsers < ActiveRecord::Migration
+  def change
+    create_table :types_vids, id: false do |t|
+      t.belongs_to :type
+      t.belongs_to :vid
+    end
+  end
+end
+-------------------------------------------------------------------
+// Here, "id: false" is to prevent the creation of a primary key
+
+// STEP 2
+-------------------------------------------------------------------
+// In ~/db/seeds.rb, create the data for two models
+// Note that while typing we can press enter if the line is too long
+-------------------------------------------------------------------
+Type.create([{ name: "All" }, { name: "Film" }, { name: "Animal World" }, { name: "Cartoon" }, 
+    { name: "Music" }, { name: "Learning" }, { name: "Others" }])
+Vid.create(name: "Rule The World", address: "https://www.youtube.com/embed/UhblZZITNDE?ecver=2", 
+    description: "Karaoke with Vietsub", :types => Type.where(:name => ["All", "Music", "Learning"]))
+Vid.create(name: "Telephone In English", address: "https://www.youtube.com/embed/4ckT3aGbhyI?ecver=2", 
+    description: "Cambridge University Press Telephone In English 3rd Edition (8 Units-full)", 
+    :types => Type.where(:name => ["All", "Learning"]))
+Vid.create(name: "Hayao Miyazaki: What You Can Imagine", address: "https://www.youtube.com/embed/8STLqW7OAtk?ecver=2", 
+    description: "A famous animation film maker", :types => Type.where(:name => ["All", "Cartoon", "Learning"]))
+Vid.create(name: "Lanh Leo (English cover)", address: "https://www.youtube.com/embed/djVhjU4Y1cU?ecver=2", 
+    description: "Original song is from China", :types => Type.where(:name => ["All", "Music", "Film"]))
+-------------------------------------------------------------------
+
+// STEP 3
+// Access to the database, for example:
+$ Type.first.vids
+$ Vid.second.types
