@@ -1,3 +1,9 @@
+// STEP 0
+// In your Cloud9 dashboard, click "Create a new workspace"
+// Enter all of the required information
+// Select the "Blank" template
+// Click "Create Workspace" and wait for your workspace to load up
+
 // STEP 1
 // Install Node.js
 $ sudo apt-get update
