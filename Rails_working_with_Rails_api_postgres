@@ -1,0 +1,46 @@
+// STEP 1
+// Install Node.js
+$ sudo apt-get update
+$ sudo apt-get install nodejs
+
+// STEP 2
+// Install Rails
+$ gem install rails -v '5.0'
+
+// STEP 3
+// Make a project
+$ rails new /home/ubuntu/workspace --api --database=postgresql
+// If it asks a question for overwrite, then say 'y'
+
+// STEP 4
+// Edit config/database.yml
+---------------------------------------------------------------
+In the file database.yml
+---------------------------------------------------------------
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+development:
+  <<: *default
+  database: workspace_development
+  template: template0
+test:
+  <<: *default
+  database: workspace_development
+  template: template0  
+---------------------------------------------------------------
+// Notice that we just add one more line "template: template0" for 
+//    "development:" and "test:"
+
+// STEP 5
+// Start up Postgresql server
+$ sudo service postgresql start
+
+// STEP 6
+// Create a database
+$ rake db:create
+// If we want to drop the database, then type "$ rake db:drop"
+
+// STEP 7
+// Now everything gets ready for your Rails api application
