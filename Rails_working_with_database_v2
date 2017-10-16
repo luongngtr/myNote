@@ -43,3 +43,7 @@ Vid.create(name: "Lanh Leo (English cover)", address: "https://www.youtube.com/e
 // Access to the database, for example:
 $ Type.first.vids
 $ Vid.second.types
+
+// STEP 4
+// Add the second Type as the reference for the first object of Vid
+Vid.first << Type.second
