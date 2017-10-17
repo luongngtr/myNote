@@ -1,3 +1,6 @@
+// First of all, rememeber to delete the similar files such as .css file and .scss file
+//    in the same asset folder
+
 // In the main layout, be sure that there are the following lines in <head></head> tag
 <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
 <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
