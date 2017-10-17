@@ -1,0 +1,57 @@
+// Add this script in a html file
+---------------------------------------------------------------------
+<body>
+  ...
+  <!-- Automatic ajax update after a time interval -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script>
+    $(document).ready(function () {
+        // will call refreshPartial every 3 seconds
+        setInterval(refreshPartial, 500)
+
+    });
+
+    // calls action refreshing the partial
+    function refreshPartial() {
+      $.ajax({
+        type: 'GET',
+        url: '/location/' + $('#ajaxid').attr('name') ,
+        data: {},
+        dataType: 'script',
+        success:function(data) {
+          var obj = JSON.parse(data)
+          eval(obj.div_contents.body);
+
+        }
+     })
+    }
+  </script>
+</body>
+---------------------------------------------------------------------
+
+// In the controller, the action related to "javascript_escape render partial ..." looks like below
+---------------------------------------------------------------------
+class LocationController < ApplicationController
+...
+def show
+  @locs = Coord.all
+  current_idx = params[:id].to_i
+  @current = @locs[current_idx]
+  if @current.nil?
+    current_idx = current_idx - 1
+  end
+  @current = @locs[current_idx]
+  @pasts = @locs[0..current_idx-1]
+
+  respond_to do |format| 
+    format.js {}
+    format.json { render json: {all_data: {current: @current.to_json, pasts: @pasts.to_json }}}
+    format.html 
+  end
+end
+...
+end
+---------------------------------------------------------------------
+
+// Check the received data of some ajax
+alert(data)
