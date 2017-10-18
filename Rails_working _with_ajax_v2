@@ -55,3 +55,7 @@ end
 
 // Check the received data of some ajax
 alert(data)
+
+// Transfer variables from Rails to JQuery
+var is_it_successful= '<%= @is_it_successful %>';
+var notification_message='<%= @notification_message %>';
