@@ -45,6 +45,14 @@ $ git push heroku master
 $ heroku run rake db:migrate
 $ heroku run rake db:seed
 
+// To drop the database, if you are using SHARE_DATABASE_URL
+$ heroku pg:reset DATABASE
+// It will confirm you by typing the name of your heroku application
+
+// To download a database from heroku
+$ heroku pg:backups:capture
+$ heroku pg:backups:download
+
 // STEP 5
 // To run Rails console on Heroku server
 $ heroku run rails console
