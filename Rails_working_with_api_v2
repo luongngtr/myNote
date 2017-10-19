@@ -106,10 +106,71 @@ json.array! @posts do |post|
   json.id post.id
   json.title post.title
   json.body post.body
+  json.user do
+    json.id post.user.id
+    json.name post.user.name
+  end
 end
 ...
 --------------------------------------------------
-https://code.tutsplus.com/articles/crafting-apis-with-rails--cms-27695
+// Run the server
+$ rails s -p $PORT -b $IP
+// In Cloud9 right top cornner, find "Share" and click to open a popup window
+// Look at "Links to share" and copy the url address in "Application"
+// For example: https://crafting-api-luongnguyen.c9users.io
+// Change this url to https://crafting-api-luongnguyen.c9users.io/api/v1/posts.json and past to some web brownser
+// The results are similar like
+--------------------------------------------------
+[{"id":5,"title":"Such, Such Were the Joys","body":"Repudiandae ..."},
+{"id":4,"title":"Brandy of the Damned","body":"Suscipit ..."},...]
+--------------------------------------------------
+
+// For partial view:
+// In the file "views/api/v1/posts/index.json.jbuilder"
+--------------------------------------------------
+...
+json.partial! partial: 'posts/post', collection: @posts, as: :post
+...
+--------------------------------------------------
+// In the file "views/api/v1/posts/_post.json.jbuilder"
+--------------------------------------------------
+...
+json.id post.id
+json.title post.title
+json.body post.body
+json.user do
+    json.id post.user.id
+    json.name post.user.name
+end
+...
+--------------------------------------------------
+
+// Use rails_model_serializers gem
+// In the file "models/serializers/post_serializer.rb"
+--------------------------------------------------
+...
+class PostSerializer < ActiveModel::Serializer
+  attributes :id, :title, :body
+  belongs_to :user
+ 
+  class UserSerializer < ActiveModel::Serializer
+    attributes :id, :name
+  end
+end
+...
+--------------------------------------------------
+// In the file "controllers/api/v1/posts_controller.rb"
+--------------------------------------------------
+...
+def index
+    @posts = Post.order('created_at DESC')     
+    render json: @posts
+end
+...
+--------------------------------------------------
+
+...to be continued...
+
 
 
 
