@@ -1,0 +1,115 @@
+// In your Cloud9 dashboard, click "Create a new workspace"
+// Enter all of the required information
+// Select the "Blank" template
+// Click "Create Workspace" and wait for your workspace to load up
+$ sudo apt-get update
+$ sudo apt-get install nodejs
+$ gem install rails -v '5.0'
+$ rails new /home/ubuntu/workspace --api 
+$ rails g model User name:string
+$ rails g model Post title:string body:text user:belongs_to
+$ rails db:migrate
+
+// In the file "models/user.rb"
+--------------------------------------------------
+...
+has_many :posts 
+validates :name, presence: true
+...
+--------------------------------------------------
+
+// In the file "models/post.rb"
+--------------------------------------------------
+...
+belongs_to :user 
+validates :title, presence: true
+validates :body, presence: true
+...
+--------------------------------------------------
+
+// In the file "Gemfile"
+--------------------------------------------------
+...
+group :development do
+    gem 'faker'
+end
+...
+--------------------------------------------------
+$ bundle install
+
+// In the file "db/seeds.rb"
+--------------------------------------------------
+...
+5.times do
+  user = User.create({name: Faker::Name.name})
+  user.posts.create({title: Faker::Book.title, body: Faker::Lorem.sentence})
+end
+...
+--------------------------------------------------
+$ rake db:seed
+
+// It's a common practice to nest the API's routes under the "api/" path
+// In the file "config/routes.rb"
+--------------------------------------------------
+...
+namespace 'api' do
+    namespace 'v1' do
+      resources :posts
+      resources :users
+    end
+end
+...
+--------------------------------------------------
+
+// Create controllers (if some folders do not exist, then create one
+// In the file "controllers/api/v1/users_controller.rb"
+--------------------------------------------------
+...
+module Api
+    module V1
+        class UsersController < ApplicationController
+        end
+    end
+end
+...
+--------------------------------------------------
+// In the file "controllers/api/v1/posts_controller.rb"
+--------------------------------------------------
+...
+module Api
+    module V1
+        class PostsController < ApplicationController
+        end
+    end
+end
+...
+--------------------------------------------------
+
+// The next question is how to properly respond with the JSON-formatted data? 
+// In this article we will try these solutions: the jBuilder and active_model_serializers gems. 
+// In the file "Gemfile"
+--------------------------------------------------
+...
+gem 'jbuilder', '~> 2.5'
+gem 'active_model_serializers', '~> 0.10.0'
+...
+--------------------------------------------------
+$ bundle install
+
+// create the view named after the corresponding action with the .json.jbuilder extension. 
+// Note that the view must be placed under the api/v1 path as well.
+
+// In the file "views/api/v1/posts/index.json.jbuilder"
+--------------------------------------------------
+...
+json.array! @posts do |post|
+  json.id post.id
+  json.title post.title
+  json.body post.body
+end
+...
+--------------------------------------------------
+https://code.tutsplus.com/articles/crafting-apis-with-rails--cms-27695
+
+
+
