@@ -50,3 +50,5 @@ $ rake db:create
 
 // STEP 7
 // Now everything gets ready for your Rails api application
+// Start the server
+$ rails s -p $PORT -b $IP
