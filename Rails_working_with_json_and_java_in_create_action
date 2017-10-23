@@ -1,0 +1,115 @@
+// STEP 1
+// Java file
+================================================================================================
+package location_identifier;
+
+import java.io.BufferedInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import org.json.JSONObject;
+import org.json.JSONException;
+
+
+public class LocationIdentifier {
+	
+	public JSONObject uploadToServer() throws IOException, JSONException {
+	        String query = "https://motion-tracking-luongnguyen.c9users.io/location.json";	        
+	        String json = "{\"coord\": {\"x\": 999, \"y\": 999}}";
+	
+	        URL url = new URL(query);
+	        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+	        conn.setConnectTimeout(5000);
+	        conn.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
+	        conn.setDoOutput(true);
+	        conn.setDoInput(true);
+	        conn.setRequestMethod("POST");
+	
+	        OutputStream os = conn.getOutputStream();
+	        os.write(json.getBytes("UTF-8"));
+	        os.close();
+	
+	        // read the response
+	        InputStream in = new BufferedInputStream(conn.getInputStream());
+	        String result = org.apache.commons.io.IOUtils.toString(in, "UTF-8");
+	        JSONObject jsonObject = new JSONObject(result);
+	
+	
+	        in.close();
+	        conn.disconnect();
+	
+	        return jsonObject;
+	}
+
+	public static void main(String[] args) throws IOException, JSONException {
+		// TODO Auto-generated method stub
+		
+		LocationIdentifier myworker = new LocationIdentifier();
+		JSONObject output = myworker.uploadToServer();
+		System.out.print(output.toString());
+		
+		
+	}
+
+}
+================================================================================================
+
+// STEP 2
+// Create-action file
+================================================================================================
+class LocationController < ApplicationController
+  skip_before_filter :verify_authenticity_token, :only => [:create]
+  layout 'location_layout'
+  def index
+    @locs = Coord.all
+    current_idx = 0
+    @current = @locs[current_idx]
+    @pasts = @locs[current_idx]
+    
+    respond_to do |format| 
+      format.html
+      format.json { render json: {all_data: {current: @current.to_json, pasts: @pasts.to_json }}, adapter: :json, status: 201}
+    end
+  end
+
+  def show
+    @locs = Coord.all
+    current_idx = params[:id].to_i
+    @current = @locs[current_idx]
+    if @current.nil?
+      current_idx = current_idx - 1
+    end
+    @current = @locs[current_idx]
+    @pasts = @locs[0..current_idx-1]
+    
+    respond_to do |format| 
+      format.js {}
+      format.json { render json: {all_data: {current: @current.to_json, pasts: @pasts.to_json }}, adapter: :json, status: 201}
+      format.html 
+    end
+  end
+
+  def update
+  end
+
+  def create
+    coord = Coord.new(coord_params)
+    respond_to do |format|
+      if coord.save
+        format.json { render json: coord, adapter: :json, status: 201}
+      else
+        format.json { render json: { error: coord.errors }, adapter: :json, status: 422}
+      end
+    end
+  end
+  
+  private
+
+  def coord_params
+    params.require(:coord).permit(:x, :y)
+  end
+  
+end
+================================================================================================
