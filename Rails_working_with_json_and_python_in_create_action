@@ -1,0 +1,92 @@
+// STEP 1
+=================================================================================
+// In the file "app/controllers/location_controller"
+=================================================================================
+class LocationController < ApplicationController
+  skip_before_filter :verify_authenticity_token, :only => [:create]
+  layout 'location_layout'
+  def index
+    @locs = Coord.all
+    current_idx = 0
+    @current = @locs[current_idx]
+    @pasts = @locs[current_idx]
+    
+    respond_to do |format| 
+      format.html
+      format.json { render json: {all_data: {current: @current.to_json, pasts: @pasts.to_json }}, adapter: :json, status: 201}
+    end
+  end
+
+  def show
+    @locs = Coord.all
+    current_idx = params[:id].to_i
+    @current = @locs[current_idx]
+    if @current.nil?
+      current_idx = current_idx - 1
+    end
+    @current = @locs[current_idx]
+    @pasts = @locs[0..current_idx-1]
+    
+    respond_to do |format| 
+      format.js {}
+      format.json { render json: {all_data: {current: @current.to_json, pasts: @pasts.to_json }}, adapter: :json, status: 201}
+      format.html 
+    end
+  end
+
+  def update
+  end
+
+  def create
+    coord = Coord.new(coord_params)
+    respond_to do |format|
+      if coord.save
+        format.json { render json: coord, adapter: :json, status: 201}
+      else
+        format.json { render json: { error: coord.errors }, adapter: :json, status: 422}
+      end
+    end
+  end
+  
+  private
+
+  def coord_params
+    params.require(:coord).permit(:x, :y)
+  end
+  
+end
+=================================================================================
+
+// STEP 2
+=================================================================================
+// In a python file 
+=================================================================================
+import json
+import requests
+
+#----------------------------------------------------------------
+# Add a record to the database by POST method with JSON data
+#----------------------------------------------------------------
+url_base = 'https://motion-tracking-luongnguyen.c9users.io/'
+headers = {'Data-Type': 'json', 'Content-Type': 'application/json'}
+url = '{}location.json'.format(url_base)
+new_coord = {'coord': {'x': 1000, 'y': 1000}}
+new_coord = json.dumps(new_coord)
+print(new_coord)
+
+response = requests.post(url, headers=headers, data=new_coord)
+print(response.status_code)
+#print(response.content)
+
+#----------------------------------------------------------------
+# View database by invoking the action 'show' of a Rail controller
+#----------------------------------------------------------------
+#url_base = 'https://motion-tracking-luongnguyen.c9users.io/'
+#headers = {'Data-Type': 'json', 'Content-Type': 'application/json'}
+#url = '{}location/9.json'.format(url_base)
+#
+#response = requests.get(url, headers=headers)
+#print(response.status_code)
+#jdata = json.loads(response.content.decode('utf-8'))
+#print(jdata)
+=================================================================================
