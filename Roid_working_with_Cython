@@ -1,0 +1,21 @@
+// Install Anaconda
+// Open Anaconda Prompt
+// Install Cython
+...\Anaconda3> conda install -c anaconda cython
+
+// Open a txt file 
+--------------------------------------------------------
+def greet():
+    return 'Hi, you made it!'
+--------------------------------------------------------
+
+// Save the txt file as mytest.py
+// Open Anaconda Prompt
+// Convert mytest.py to mytest.c using Cython
+...\Anaconda3> cython --embed -o mytest.c mytest.py
+
+// Install gcc compiler using Anaconda
+...\Anaconda3> conda install -c anaconda mingw  
+
+// Use gcc compiler to compile .c file to .so file
+gcc -shared -o -Wall -g libmytest.so -fPIC mytest.c
