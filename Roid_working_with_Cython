@@ -6,7 +6,13 @@
 // Open a txt file 
 --------------------------------------------------------
 def greet():
-    return 'Hi, you made it!'
+    return 'Hi, you did it, really!'
+
+def main():
+  print(greet())
+ 
+if __name__ == '__main__':
+  main()
 --------------------------------------------------------
 
 // Save the txt file as mytest.py
