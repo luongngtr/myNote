@@ -24,4 +24,5 @@ if __name__ == '__main__':
 ...\Anaconda3> conda install -c anaconda mingw  
 
 // Use gcc compiler to compile .c file to .so file
+gcc -c -IC:\Users\PCuser\Anaconda3\include -o mytest.o mytest.c
 gcc -shared -o -Wall -g libmytest.so -fPIC mytest.c
