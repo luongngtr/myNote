@@ -26,3 +26,7 @@ if __name__ == '__main__':
 // Use gcc compiler to compile .c file to .so file
 gcc -c -IC:\Users\PCuser\Anaconda3\include -o mytest.o mytest.c
 gcc -shared -o -Wall -g libmytest.so -fPIC mytest.c
+
+// Alternative way
+cython -a test.py
+gcc -shared -pthread -fPIC -fwrapv -O2 -Wall -fno-strict-aliasing -I/usr/include/python2.7 -o test.so test.c
