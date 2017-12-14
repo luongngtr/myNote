@@ -15,22 +15,29 @@ if __name__ == '__main__':
   main()
 --------------------------------------------------------
 
-// Save the txt file as mytest.py
-// Open Anaconda Prompt
-// Convert mytest.py to mytest.c using Cython
-...\Anaconda3> cython --embed -o mytest.c mytest.py
+// Save the txt file as mytest.pyx
+// To compile this file to a .so file (linux) or a .pyd file (window), open Anaconda Prompt and run
+...\Anaconda3> cythonize -a -i yourmod.pyx
 
-// Install gcc compiler using Anaconda
-...\Anaconda3> conda install -c anaconda mingw  
-// Or install tdm64-gcc-5.1.0-2.exe (for window)
+// To manually compile this file to a .so file (linux), open Anaconda Prompt and run
+...\Anaconda3> cython -a mytest.py
+...\Anaconda3> gcc -shared -pthread -fPIC -fwrapv -O2 -Wall -fno-strict-aliasing -I/usr/include/python3.5 -o yourmod.so yourmod.c
+// Note that it is some error when we try to compile a .so file in window
 
-// Use gcc compiler to compile .c file to .so file
-gcc -c -IC:\Users\PCuser\Anaconda3\include -o mytest.o mytest.c
-gcc -shared -o -Wall -g libmytest.so -fPIC mytest.c
+// Supppose that one would like to use the function greet() in the another python program
+// Create tha setup.py file as follows.
+--------------------------------------------------------
+from distutils.core import setup
+from Cython.Build import cythonize
 
-// Alternative way, in Anaconda Prompt
-cython -a test.py
-gcc -shared -pthread -fPIC -fwrapv -O2 -Wall -fno-strict-aliasing -I/usr/include/python2.7 -o test.so test.c
+setup(
+  name = 'Hello world app',
+  ext_modules = cythonize("hello.pyx"),
+)
+--------------------------------------------------------
+// And run
+...\Anaconda3> python setup.py build_ext --inplace
+// In the another python program, just put this import line
+from mytest import greet
 
-// Ex: 
-gcc -shared -pthread -fPIC -fwrapv -O2 -Wall -fno-strict-aliasing -IC:\ProgramData\Anaconda3\include -LC:\ProgramData\Anaconda3\libs -o C:\Users\Administrator\Downloads\mytest.so C:\Users\Administrator\Downloads\mytest.c
+
