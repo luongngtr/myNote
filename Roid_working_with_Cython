@@ -20,7 +20,7 @@ if __name__ == '__main__':
 ...\Anaconda3> cythonize -a -i yourmod.pyx
 
 // To manually compile this file to a .so file (linux), open Anaconda Prompt and run
-...\Anaconda3> cython -a mytest.py
+...\Anaconda3> cython -a mytest.pyx
 ...\Anaconda3> gcc -shared -pthread -fPIC -fwrapv -O2 -Wall -fno-strict-aliasing -I/usr/include/python3.5 -o yourmod.so yourmod.c
 // Note that it is some error when we try to compile a .so file in window
 
