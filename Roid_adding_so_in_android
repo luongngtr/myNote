@@ -1,0 +1,38 @@
+// There are two options
+// OPTION 1: Using JniLibs file
+// Add to build.gradle the following content
+--------------------------------------------------------------
+dependencies {
+    compile fileTree(dir: "$buildDir/native-libs", include: 'native-libs.jar')
+}
+--------------------------------------------------------------
+// Create a .jar file (more details on internet)
+--------------------------------------------------------------
+task nativeLibsToJar(type: Jar, description: 'create a jar archive of the native libs') {
+    destinationDir file("$buildDir/native-libs") baseName 'native-libs' from fileTree(dir: 'libs', include: '**/*.so') into 'lib/'
+}
+tasks.withType(JavaCompile) { compileTask ->
+    compileTask.dependsOn(nativeLibsToJar)
+}
+--------------------------------------------------------------
+// Create a subfolder named ‘jnilibs’ in the folder ~/src/main.
+// Create a list of subfolders in the folder jnilibs, including "armeabi", "armeabi-v7a", "mips", "x86", "x86_64"
+// Add lib~.so into each subfolder
+
+// OPTION 2:  Add the following into build.gradle 
+--------------------------------------------------------------
+android {
+    sourceSets {
+        main {
+            jniLibs.srcDirs = ['libs']
+        }
+    }
+}
+--------------------------------------------------------------
+
+// Similar as OPTION 1, create a list of subfolders in the folder "libs"
+// Add lib~.so file into each subfolder
+
+
+// To use .so file, create a project in Android Studio with C++ support,
+// and then learn the way it use .cpp function
