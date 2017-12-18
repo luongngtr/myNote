@@ -36,10 +36,11 @@ android {
 
 // To use .so file, create a project in Android Studio with C++ support,
 // and then learn the way it use .cpp function
+// For example, "libtest_jni.so"
 --------------------------------------------------------------
 static {
     try {
-        System.loadLibrary("cpu_jni");
+        System.loadLibrary("test_jni");
     }
     catch (UnsatisfiedLinkError ule) {
        Log.e("LoadJniLib", "Error: Could not load native library: " + ule.getMessage());
