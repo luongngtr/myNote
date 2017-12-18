@@ -1,0 +1,26 @@
+// STEP 1: Create the file mytest.c as follows.
+--------------------------------------------------------
+#include <stdio.h>
+
+int
+hello()
+{
+  printf ("Hello World!\n");
+}  
+--------------------------------------------------------
+
+// STEP 2: Compile this file to .dll file
+> gcc -c D:\mytest.c
+> gcc -shared -o D:\mytest.dll D:\mytest.o
+
+// STEP 3: Test this file in Jupyter notebook in Window
+// Install Anaconda (search and download Anaconda on the internet)
+// Open Jupyter notebook
+> Jupyter notebook
+// Create a .ipynb file with the content as follows
+--------------------------------------------------------
+from ctypes import cdll
+mydll = cdll.LoadLibrary('D:\\mytest.dll')
+mydll.hello()
+--------------------------------------------------------
+// Run this notebook (Ctr + Enter)
