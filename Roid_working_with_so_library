@@ -1,0 +1,56 @@
+// STEP 1: Create the file test.c (using C language)
+--------------------------------------------------------------
+//test.c
+--------------------------------------------------------------
+int sum(int a, int b) {
+    return a + b;
+}
+--------------------------------------------------------------
+
+// STEP 2 (Optional): Create the header file test.h 
+--------------------------------------------------------------
+//test.h
+--------------------------------------------------------------
+int sum(int , int ) ;
+--------------------------------------------------------------
+
+// STEP 3: In Linux (for example Ubuntu), use gcc/g++ to compile the file to .so file (shared object)
+$ gcc -Wall -Wextra -O -ansi -pedantic -shared test.c -o test.so
+
+// STEP 4: In Linux, list all of the function in .so file using the following command
+$ nm -D test.so 
+// Alternatively, one might use
+$ nm -D test.so | grep ' T '
+// where
+// A	The symbol's value is absolute, and will not be changed by further linking.
+// B	Un-initialized data section
+// D	Initialized data section
+// T	Normal code section
+// U	Undefined symbol used but not defined. Dependency on another library.
+// W	Doubly defined symbol. If found, allow definition in another library to resolve dependency.
+
+// STEP 5: Test .so file in Linux (for example Ubuntu) 
+// Install Anaconda (search and download Anaconda on the internet)
+// Open a promt in Linux
+// Link the path to Anaconda
+> export PATH=~/anaconda3/bin:$PATH
+// Open Jupyter notebook
+> Jupyter notebook
+// Create a new .ipynb file and type the content as follows
+--------------------------------------------------------------
+from ctypes import cdll
+mydll = cdll.LoadLibrary('//home//lulu//test.so')
+mydll.sum(2,5)
+--------------------------------------------------------------
+// Then run it (press Ctr + Enter)
+// Note that to find the path of the file "test.so", right click and view its property
+
+
+
+
+
+
+
+
+
+
