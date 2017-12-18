@@ -1,0 +1,9 @@
+// Download and install Android Studio on the internet
+// To connect to the real phone (assume that we already install the driver for it),
+// run the following command.
+$ apt-get install android-tools-adb
+// Also, run
+$ adb kill-server
+$ sudo adb start-server
+adb server is out of date. killing... * daemon started successfully *
+$ sudo adb devices
