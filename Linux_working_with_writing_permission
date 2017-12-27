@@ -1,0 +1,3 @@
+// Give "write" permission to the folder "/home/islab/anaconda3"
+// The user of the linux system (ubuntu) is "islab"
+$ sudo chown -R islab /home/islab/anaconda3
