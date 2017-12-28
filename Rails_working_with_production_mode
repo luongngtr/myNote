@@ -1,0 +1,11 @@
+// Add the following line to app/config/environments/production.rb
+config.secret_key_base = 'hellohowareyouiamfinethankyouandyou'
+
+> bundle install
+> bundle exec rake assets:precompile
+> bundle exec rake db:create
+> bundle exec rake db:migration
+> rails server -p 80 -b 0.0.0.0 -e production
+
+// Some tag
+<%= image_tag("top_left_background_jpg.jpg", {:style => "width: 257 ; height: 66 ; border: 0;"}) %>
