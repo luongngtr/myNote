@@ -1,5 +1,6 @@
 // Add the following line to app/config/environments/production.rb
 config.secret_key_base = 'hellohowareyouiamfinethankyouandyou'
+config.serve_static_files = true
 
 > bundle install
 > bundle exec rake assets:precompile
