@@ -1,0 +1,23 @@
+STEP 1: Install rails on Windows
+Refer to the following link
+http://blog.teamtreehouse.com/installing-rails-5-windows
+
+STEP 2: Deploy a rails project
+Suppose that the rails project is given by a zip file
+Unzip this file in somewhere, for example, E:\BPL_HOMEPAGE_RAILS
+Modify the file E:\BPL_HOMEPAGE_RAILS\app\config\environments\production.rb by adding the following lines
+config.secret_key_base = 'hellohowareyouiamfinethankyouandyou'
+config.serve_static_files = true
+
+STEP 3: Run the rails server
+Open cmd in window and run the following lines
+> cd /d E:\BPL_HOMEPAGE_RAILS
+> bundle install
+> bundle exec rake assets:precompile
+> bundle exec rake db:create
+> bundle exec rake db:migration
+> rails server -p 80 -b 0.0.0.0 -e production
+
+
+Note that for the development (fixing bugs), instead of "production", we run
+> rails server -p 80 -b 0.0.0.0 -e development
