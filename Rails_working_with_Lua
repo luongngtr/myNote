@@ -15,7 +15,7 @@ Open cmd in window and run the following lines
 > bundle install
 > bundle exec rake assets:precompile
 > bundle exec rake db:create
-> bundle exec rake db:migration
+> bundle exec rake db:migrate
 > rails server -p 80 -b 0.0.0.0 -e production
 
 
