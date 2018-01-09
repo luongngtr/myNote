@@ -1,13 +1,18 @@
 *******************************************************
 * ON WINDOW 
 *******************************************************
+
 // Install Anaconda (with python 3.5)
 https://repo.continuum.io/archive/Anaconda3-4.2.0-Windows-x86_64.exe
+
+
 
 // Install Git, Swig, and Cmake
 conda install -c conda-forge git
 conda install -c conda-forge swig 
 conda install -c conda-forge cmake
+
+
 
 // Create a folder called "bin" in "C:\Users\%USERNAME%\"
 // Install Tensorflow
@@ -21,10 +26,15 @@ conda install -c conda-forge cmake
                                                                                                                     -DPYTHON_EXECUTABLE=C:\Users\USER\Anaconda3\python.exe 
                                                                                                                     -DPYTHON_LIBRARIES=C:\Users\USER\Anaconda3\pkgs\python-3.5.4-h1357f44_23\libs\python35.lib
                                                                                                                     
+
 // Install Visual Studio (search and download an install file from internet)
+
+
 
 // Run the software Visual Studio, open the solution called "tensorflow.sln" in the folder 
 C:\Users\%USERNAME%\bin\tensorflow\tensorflow\contrib\cmake\build
+
+
 
 // Set "Release" in Build/Configuration Manager of Visual Studio
 // Right-clieck on the ALL_BUILD project and choose "build"
@@ -46,6 +56,8 @@ $ sudo apt-get update && sudo apt-get install -y \
     && unzip \
     && wget
 
+
+
 // Install protobuf
 $ git clone https://github.com/google/protobuf \
     && cd protobuf \
@@ -54,6 +66,8 @@ $ git clone https://github.com/google/protobuf \
     && ./configure --prefix=/usr \
     && sudo make install \
     && cd ..
+
+
 
 // Install Bazel
 // Install JDK 8
@@ -65,12 +79,17 @@ $ sudo apt-get update \
     && echo debconf shared/accepted-oracle-license-v1-1 seen   true | sudo debconf-set-selections \
     && sudo apt-get install -y oracle-java8-installer
 
+
+
 // Add Bazel distribution URI as a package source
 $ echo "deb [arch=amd64] http://storage.googleapis.com/bazel-apt stable jdk1.8" | sudo tee /etc/apt/sources.list.d/bazel.list \
     && curl https://bazel.build/bazel-release.pub.gpg | sudo apt-key add -
 
+
+
 // Install and update Bazel
 $ sudo apt-get update && sudo apt-get install -y bazel && sudo apt-get upgrade -y bazel
+
 
 
 // Install TensorFlow Python dependencies
@@ -80,6 +99,7 @@ $ sudo apt-get update && sudo apt-get install -y \
     && python-pip \
     && python-wheel \
     && swig
+
 
 
 // Install TensorFlow
@@ -97,6 +117,7 @@ $ git clone --recurse-submodules -b v1.4.0-rc1 https://github.com/tensorflow/ten
     && cd ..
 
 
+
 // Install eigen header files
 Execute the file `eigen.sh` in this repository as follow,
 Please specify `<tensorflow-root>` as the root directory of the TensorFlow repository which cloned in step4, for example, /home/lulu/bin/tensorflow
@@ -104,6 +125,7 @@ and `/usr/local` is the directory to where you wish to install eigen.
 $ git clone https://github.com/hhzrz/tensorflow-cpp
 $ cd tensorflow-cpp
 $ sudo ./eigen.sh install <tensorflow-root> /usr/local
+
 
 
 // Install nsync (Optional)
@@ -120,6 +142,7 @@ $ git clone https://github.com/google/nsync.git \
     && sudo make -j4 install
 
 
+
 // Test the compiled results
 // Build a small CMake project which run the official 
 // [tensorflow image recognition demo](https://github.com/tensorflow/tensorflow/tree/master/tensorflow/examples/label_image)
@@ -130,8 +153,10 @@ $ cmake . && make -j4
 $ ./hello_tensorflow
 
 
-// Some useful notes:
-If you want to integrate tensorflow c++ library to your c++ project, after building tensorflow c++ library successfully according to the above instructions:
-1. Copy all cmake mond `tensorflow_framework`.dules(Eigen_VERSION.cmake, FindEigen.cmake, FindTensorFlow.cmake) in this repository to your own project's `cmake/Modules` directory.
-2. Add your project's `cmake/Modules` directory to `CMAKE_MODULE_PATH` variable.
-3. Link your executable with two more libraries: `tensorflow_cc` and `tensorflow_framework`
+
+// In order to integrate tensorflow c++ library to the new c++ project, 
+// after building tensorflow c++ library successfully according to the above instructions:
+// 1. Copy all `tensorflow_framework` cmake modules (Eigen_VERSION.cmake, FindEigen.cmake, FindTensorFlow.cmake) in the results 
+//       to the new project's `cmake/Modules` directory.
+// 2. Add your project's `cmake/Modules` directory to `CMAKE_MODULE_PATH` variable.
+// 3. Link your executable with two more libraries: `tensorflow_cc` and `tensorflow_framework`
