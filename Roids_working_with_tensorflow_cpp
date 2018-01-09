@@ -32,3 +32,106 @@ C:\Users\%USERNAME%\bin\tensorflow\tensorflow\contrib\cmake\build
 *******************************************************
 * ON UBUNTU
 *******************************************************
+(Source: https://github.com/hhzrz/tensorflow-cpp)
+
+// Install protobuf dependencies
+$ sudo apt-get update && sudo apt-get install -y \
+    && autoconf \
+    && automake \
+    && ccache \
+    && curl \
+    && g++ \
+    && libtool \
+    && make \
+    && unzip \
+    && wget
+
+// Install protobuf
+$ git clone https://github.com/google/protobuf \
+    && cd protobuf \
+    && git checkout v3.4.0 \
+    && ./autogen.sh \
+    && ./configure --prefix=/usr \
+    && sudo make install \
+    && cd ..
+
+// Install Bazel
+// Install JDK 8
+$ sudo apt-get update \
+    && sudo apt-get install -y software-properties-common \
+    && sudo add-apt-repository -y ppa:webupd8team/java \
+    && sudo apt-get update \
+    && echo debconf shared/accepted-oracle-license-v1-1 select true | sudo debconf-set-selections \
+    && echo debconf shared/accepted-oracle-license-v1-1 seen   true | sudo debconf-set-selections \
+    && sudo apt-get install -y oracle-java8-installer
+
+// Add Bazel distribution URI as a package source
+$ echo "deb [arch=amd64] http://storage.googleapis.com/bazel-apt stable jdk1.8" | sudo tee /etc/apt/sources.list.d/bazel.list \
+    && curl https://bazel.build/bazel-release.pub.gpg | sudo apt-key add -
+
+// Install and update Bazel
+$ sudo apt-get update && sudo apt-get install -y bazel && sudo apt-get upgrade -y bazel
+
+
+// Install TensorFlow Python dependencies
+$ sudo apt-get update && sudo apt-get install -y \
+    && python-numpy \
+    && python-dev \
+    && python-pip \
+    && python-wheel \
+    && swig
+
+
+// Install TensorFlow
+$ git clone --recurse-submodules -b v1.4.0-rc1 https://github.com/tensorflow/tensorflow.git \
+    && cd tensorflow \
+    && printf '\n\n\n\n\n\n\n\n\n\n\n\n' | ./configure \
+    && bazel build //tensorflow:libtensorflow_cc.so --incompatible_load_argument_is_label=false \
+    && sudo mkdir -p                /usr/local/include/google/tensorflow \
+    && sudo cp -r bazel-genfiles/*  /usr/local/include/google/tensorflow/ \
+    && sudo cp -r tensorflow        /usr/local/include/google/tensorflow/ \
+    && sudo find                    /usr/local/include/google/tensorflow -type f  ! -name "*.h" -delete \
+    && sudo cp -r third_party       /usr/local/include/google/tensorflow/ \
+    && sudo cp bazel-bin/tensorflow/libtensorflow_cc.so /usr/local/lib \
+    && sudo cp bazel-bin/tensorflow/libtensorflow_framework.so /usr/local/lib \
+    && cd ..
+
+
+// Install eigen header files
+Execute the file `eigen.sh` in this repository as follow,
+Please specify `<tensorflow-root>` as the root directory of the TensorFlow repository which cloned in step4, for example, /home/lulu/bin/tensorflow
+and `/usr/local` is the directory to where you wish to install eigen.
+$ git clone https://github.com/hhzrz/tensorflow-cpp
+$ cd tensorflow-cpp
+$ sudo ./eigen.sh install <tensorflow-root> /usr/local
+
+
+// Install nsync (Optional)
+// In case of the following error
+---------------------------------------------
+/usr/local/include/google/tensorflow/tensorflow/core/platform/default/mutex.h:25:22: fatal error: nsync_cv.h: No such file or directory
+ #include "nsync_cv.h"
+---------------------------------------------
+// To solve the error, run the following
+$ git clone https://github.com/google/nsync.git \
+    && cd nsync \
+    && git checkout 839fcc53ff9be58218ed55397deb3f8376a1444e \
+    && cmake -DCMAKE_INSTALL_PREFIX=/usr \
+    && sudo make -j4 install
+
+
+// Test the compiled results
+// Build a small CMake project which run the official 
+// [tensorflow image recognition demo](https://github.com/tensorflow/tensorflow/tree/master/tensorflow/examples/label_image)
+(might be done) $ git clone https://github.com/hhzrz/tensorflow-cpp
+(might be done) $ cd tensorflow-cpp
+$ curl -L "https://storage.googleapis.com/download.tensorflow.org/models/inception_v3_2016_08_28_frozen.pb.tar.gz" | tar -C ./data -xz
+$ cmake . && make -j4
+$ ./hello_tensorflow
+
+
+// Some useful notes:
+If you want to integrate tensorflow c++ library to your c++ project, after building tensorflow c++ library successfully according to the above instructions:
+1. Copy all cmake mond `tensorflow_framework`.dules(Eigen_VERSION.cmake, FindEigen.cmake, FindTensorFlow.cmake) in this repository to your own project's `cmake/Modules` directory.
+2. Add your project's `cmake/Modules` directory to `CMAKE_MODULE_PATH` variable.
+3. Link your executable with two more libraries: `tensorflow_cc` and `tensorflow_framework`
