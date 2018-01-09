@@ -1,0 +1,14 @@
+// Task manager
+// ps aux -> USER PID %CPU %MEM VSZ RSS TTY STAT START TIME COMMAND
+// where PID: process id
+$ ps aux | grep apt
+$ sudo kill <PID>
+or
+$ sudo kill -9 <PID>
+
+// Show hidden files in a folder
+Ctr + H
+
+// Show prompt
+Ctr + Alt + T
+
