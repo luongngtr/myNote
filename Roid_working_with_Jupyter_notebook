@@ -1,0 +1,4 @@
+// View the variable value within a subfunction
+$ pip install jupyter_contrib_nbextensions
+$ jupyter contrib nbextensions install --sys-prefix --skip-running-check
+$ jupyter nbextension enable varInspector/main
