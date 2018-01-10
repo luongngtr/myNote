@@ -12,3 +12,5 @@ Ctr + H
 // Show prompt
 Ctr + Alt + T
 
+// Open a folder from terminal 
+$ nautilus /path/to/that/folder
