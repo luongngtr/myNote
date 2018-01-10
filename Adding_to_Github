@@ -25,3 +25,11 @@ $ git remote show
 // STEP 5
 Remove the "origin' from the git remote 
 $ git remote rm origin
+
+// STEP 6
+// Error: Not currently on any branch.
+//        nothing to commit (working directory clean)
+$ git checkout -b temp
+$ git checkout master
+$ git merge temp
+$ git branch -d temp
