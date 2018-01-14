@@ -82,8 +82,11 @@ $ sudo apt-get update \
 
 
 
-// Add Bazel distribution URI as a package source
+// Add Bazel distribution URI as a package source with 64bit
 $ echo "deb [arch=amd64] http://storage.googleapis.com/bazel-apt stable jdk1.8" | sudo tee /etc/apt/sources.list.d/bazel.list \
+    && curl https://bazel.build/bazel-release.pub.gpg | sudo apt-key add -
+// or 32 bit
+$ echo "deb [arch=i386] http://storage.googleapis.com/bazel-apt stable jdk1.8" | sudo tee /etc/apt/sources.list.d/bazel.list \
     && curl https://bazel.build/bazel-release.pub.gpg | sudo apt-key add -
 
 
