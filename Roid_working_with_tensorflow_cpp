@@ -45,80 +45,90 @@ C:\Users\%USERNAME%\bin\tensorflow\tensorflow\contrib\cmake\build
 (Source: https://github.com/hhzrz/tensorflow-cpp)
 
 // Install protobuf dependencies
-$ sudo apt-get update && sudo apt-get install -y \
-    && autoconf \
-    && automake \
-    && ccache \
-    && curl \
-    && g++ \
-    && libtool \
-    && make \
-    && unzip \
-    && git \
-    && wget
+$ sudo apt-get update 
+$ sudo apt-get install -y automake  ccache  curl  g++  libtool  make  unzip  git  wget  autoconf     
+$ sudo apt install autoconf
 
 
 
 // Install protobuf
-$ git clone https://github.com/google/protobuf \
-    && cd protobuf \
-    && git checkout v3.4.0 \
-    && ./autogen.sh \
-    && ./configure --prefix=/usr \
-    && sudo make install \
-    && cd ..
+$ git clone https://github.com/google/protobuf 
+$ cd protobuf 
+$ git checkout -b v3.4.0 
+$ ./autogen.sh 
+$ ./configure --prefix=/usr 
+$ sudo make install 
+$ cd ..
+
+(------------------
+// Compile in 32 bit run
+$ sudo apt-get install gcc-multilib g++-multilib
+$ ./configure CFLAGS=-m32 CXXFLAGS=-m32 LDFLAGS=-m32 --prefix=/usr --build=x86_64-pc-linux-gnu --host=i686-pc-linux-gnu
+// To see which option is available
+$ ./configure --help
+-------------------)
 
 
 
 // Install Bazel
+// Two options
+// --------------------------------------------------------
+// Option 1
+// --------------------------------------------------------
 // Install JDK 8
-$ sudo apt-get update \
-    && sudo apt-get install -y software-properties-common \
-    && sudo add-apt-repository -y ppa:webupd8team/java \
-    && sudo apt-get update \
-    && echo debconf shared/accepted-oracle-license-v1-1 select true | sudo debconf-set-selections \
-    && echo debconf shared/accepted-oracle-license-v1-1 seen   true | sudo debconf-set-selections \
-    && sudo apt-get install -y oracle-java8-installer
-
-
+$ sudo apt-get update 
+$ sudo apt-get install -y software-properties-common 
+$ sudo add-apt-repository -y ppa:webupd8team/java 
+$ sudo apt-get update 
+$ echo debconf shared/accepted-oracle-license-v1-1 select true | sudo debconf-set-selections 
+$ echo debconf shared/accepted-oracle-license-v1-1 seen   true | sudo debconf-set-selections 
+$ sudo apt-get install -y oracle-java8-installer
 
 // Add Bazel distribution URI as a package source 
-$ echo "deb [arch=amd64] http://storage.googleapis.com/bazel-apt stable jdk1.8" | sudo tee /etc/apt/sources.list.d/bazel.list \
-    && curl https://bazel.build/bazel-release.pub.gpg | sudo apt-key add -
-
-
-
+$ echo "deb [arch=amd64] http://storage.googleapis.com/bazel-apt stable jdk1.8" | sudo tee /etc/apt/sources.list.d/bazel.list 
+$ curl https://bazel.build/bazel-release.pub.gpg | sudo apt-key add -
 
 // Install and update Bazel
-$ sudo apt-get update && sudo apt-get install -y bazel && sudo apt-get upgrade -y bazel
-
+$ sudo apt-get update && sudo apt-get install -y bazel 
+$ sudo apt-get upgrade -y bazel
+// --------------------------------------------------------
+// Option 2
+// --------------------------------------------------------
+// Install required packages
+$ sudo apt-get install build-essential openjdk-8-jdk python zip
+// Go to https://github.com/bazelbuild/bazel/releases
+// Download bazel-<version>-dist.zip 
+// For example: bazel-0.8.0-dist.zip
+// cd into the directory where you unpacked the distribution archive
+// run bash ./compile.sh
+// --------------------------------------------------------
 
 
 // Install TensorFlow Python dependencies
-$ sudo apt-get update && sudo apt-get install -y \
-    && python-numpy \
-    && python-scipy \
-    && python-matplotlib \
-    && python-dev \
-    && python-pip \
-    && python-wheel \
-    && swig
+$ sudo apt-get update && sudo apt-get install -y 
+$ python-numpy 
+$ python-scipy 
+$ python-matplotlib 
+$ python-dev 
+$ python-pip 
+$ python-wheel 
+$ swig
 
 
 
 // Install TensorFlow
-$ git clone --recurse-submodules -b v1.4.0-rc1 https://github.com/tensorflow/tensorflow.git \
-    && cd tensorflow \
-    && printf '\n\n\n\n\n\n\n\n\n\n\n\n' | ./configure \
-    && bazel build //tensorflow:libtensorflow_cc.so --incompatible_load_argument_is_label=false \
-    && sudo mkdir -p                /usr/local/include/google/tensorflow \
-    && sudo cp -r bazel-genfiles/*  /usr/local/include/google/tensorflow/ \
-    && sudo cp -r tensorflow        /usr/local/include/google/tensorflow/ \
-    && sudo find                    /usr/local/include/google/tensorflow -type f  ! -name "*.h" -delete \
-    && sudo cp -r third_party       /usr/local/include/google/tensorflow/ \
-    && sudo cp bazel-bin/tensorflow/libtensorflow_cc.so /usr/local/lib \
-    && sudo cp bazel-bin/tensorflow/libtensorflow_framework.so /usr/local/lib \
-    && cd ..
+$ git clone --recurse-submodules -b v1.4.0-rc1 https://github.com/tensorflow/tensorflow.git 
+$ cd tensorflow 
+$ printf '\n\n\n\n\n\n\n\n\n\n\n\n' | ./configure 
+$ bazel build //tensorflow:libtensorflow_cc.so --incompatible_load_argument_is_label=false 
+$ sudo mkdir -p                /usr/local/include/google/tensorflow 
+$ sudo cp -r bazel-genfiles/*  /usr/local/include/google/tensorflow/ 
+$ sudo cp -r tensorflow        /usr/local/include/google/tensorflow/ 
+$ sudo find                    /usr/local/include/google/tensorflow -type f  ! -name "*.h" -delete 
+$ sudo cp -r third_party       /usr/local/include/google/tensorflow/ 
+$ sudo cp bazel-bin/tensorflow/libtensorflow_cc.so /usr/local/lib 
+$ sudo cp bazel-bin/tensorflow/libtensorflow_framework.so /usr/local/lib 
+$ cd ..
 
 
 
