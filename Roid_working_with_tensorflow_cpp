@@ -105,14 +105,8 @@ $ sudo apt-get install build-essential openjdk-8-jdk python zip
 
 
 // Install TensorFlow Python dependencies
-$ sudo apt-get update && sudo apt-get install -y 
-$ python-numpy 
-$ python-scipy 
-$ python-matplotlib 
-$ python-dev 
-$ python-pip 
-$ python-wheel 
-$ swig
+$ sudo apt-get update 
+$ sudo apt-get install -y python-numpy python-scipy python-matplotlib  python-dev  python-pip  python-wheel  swig
 
 
 
@@ -149,11 +143,11 @@ $ sudo ./eigen.sh install <tensorflow-root> /usr/local
  #include "nsync_cv.h"
 ---------------------------------------------
 // To solve the error, run the following
-$ git clone https://github.com/google/nsync.git \
-    && cd nsync \
-    && git checkout 839fcc53ff9be58218ed55397deb3f8376a1444e \
-    && cmake -DCMAKE_INSTALL_PREFIX=/usr \
-    && sudo make -j4 install
+$ git clone https://github.com/google/nsync.git 
+$ cd nsync 
+$ git checkout 839fcc53ff9be58218ed55397deb3f8376a1444e 
+$ cmake -DCMAKE_INSTALL_PREFIX=/usr 
+$ sudo make -j4 install
 
 
 
