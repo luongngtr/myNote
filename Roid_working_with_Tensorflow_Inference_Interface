@@ -7,6 +7,7 @@ https://omid.al/posts/2017-02-20-Tutorial-Build-Your-First-Tensorflow-Android-Ap
 // STEP 1
 // Download the prebuilt libraries (file named 'libtensorflow_inference.so') of Tensorflow for android 
 https://ci.tensorflow.org/view/Nightly/job/nightly-android/
+// (For example: https://ci.tensorflow.org/view/Nightly/job/nightly-android/44/artifact/)
 // Or use the following instruction to build it again
 https://github.com/tensorflow/tensorflow/tree/master/tensorflow/contrib/android
 
