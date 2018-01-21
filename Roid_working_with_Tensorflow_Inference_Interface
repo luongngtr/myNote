@@ -122,15 +122,14 @@ private static final String MODEL_FILE = "file:///android_asset/optimized_tfdroi
     @Override
     protected void onCreate(Bundle savedInstanceState) {
     ...
-    inferenceInterface = new TensorFlowInferenceInterface();
-    inferenceInterface.initializeTensorFlow(getAssets(), MODEL_FILE);
+    inferenceInterface = new TensorFlowInferenceInterface(getAssets(), MODEL_FILE);    
     ...
     float[] inputFloats = {num1, num2, num3};
-    inferenceInterface.fillNodeFloat(INPUT_NODE, INPUT_SIZE, inputFloats);
-    inferenceInterface.runInference(new String[] {OUTPUT_NODE});
+    inferenceInterface.feed(INPUT_NODE, INPUT_SIZE, inputFloats);
+    inferenceInterface.run(new String[] {OUTPUT_NODE});
 
     float[] result = {0, 0};
-    inferenceInterface.readNodeFloat(OUTPUT_NODE, result);
+    inferenceInterface.fetch(OUTPUT_NODE, result);
     ...
     }
 ...
