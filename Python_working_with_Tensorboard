@@ -1,0 +1,23 @@
+Reference: https://medium.com/@anthony_sarkis/tensorboard-quick-start-in-5-minutes-e3ec69f673af
+// Add some lines into the main .py file
+------------------------------------------------------------------------------------------
+tf.summary.histogram(“your_variable_name”, your_variable)
+
+with tf.Session() as sess:
+  train_writer = tf.summary.FileWriter( './logs/1/train ', sess.graph)
+  counter = 0
+  for e in range(epochs)
+    for x, y in get_batches(....):
+      counter += 1
+      
+      merge = tf.summary.merge_all()
+      summary, batch_loss, new_state, _ = sess.run([merge,      model.loss, model.final_state, model.optimizer],feed_dict=feed)
+      train_writer.add_summary(summary, counter)
+      # .... your code ...
+------------------------------------------------------------------------------------------
+
+// Open Anaconda prompt
+...> activate tensorflow
+(tensorflow) ...> cd /d D:\tensorflow\MNISTv4\python_codes
+(tensorflow) D:\tensorflow\MNISTv4\python_codes > python -m tensorboard.main --logdir=logs/1
+// (Suppose that there is a folder D:\tensorflow\MNISTv4\python_codes\logs\1\train)
