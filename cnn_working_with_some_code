@@ -1,0 +1,40 @@
+---------------------------------------------------------------------------------
+% Save simulation results, including meta file of the graph model 
+% and the data file of parameter values
+---------------------------------------------------------------------------------
+cost = ...
+tf.add_to_collection("cost", cost)
+savior = tf.train.Saver()
+***********do something************
+save_path = savior.save(sess, "D:\\tensorflow\\GraphCNN\\savior\\model.ckpt")
+---------------------------------------------------------------------------------
+
+
+
+---------------------------------------------------------------------------------
+% Restore the save file
+---------------------------------------------------------------------------------
+savior = tf.train.import_meta_graph("D:\\tensorflow\\GraphCNN\\savior\\model.ckpt.meta")
+sess = tf.Session()
+savior.restore(sess, "D:\\tensorflow\\GraphCNN\\savior\\model.ckpt")
+cost = tf.get_collection("cost")[0]
+output_cost = sess.run(cost, feed_dict = ...)
+---------------------------------------------------------------------------------
+
+
+
+---------------------------------------------------------------------------------
+% Read data from a .csv file
+---------------------------------------------------------------------------------
+file_name = r"D:\tensorflow\GraphCNN\data-02-stock_daily.csv"
+data_arr = []
+if os.path.exists(file_name):
+    with open(file_name) as f:
+        f.readline()
+        f.readline()        
+        for lines in f:
+            data = f.readline().split(",")
+            data = [float(i) for i in data]
+            data = np.asarray(data).astype(np.float32)            
+            data_arr = np.concatenate((data_arr, data), axis=0)
+---------------------------------------------------------------------------------
