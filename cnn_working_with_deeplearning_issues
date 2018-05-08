@@ -1,0 +1,19 @@
+(
+References: https://gist.github.com/shagunsodhani/4441216a298df0fe6ab0
+https://gab41.lab41.org/batch-normalization-what-the-hey-d480039a9e3b
+)
+
+1/ Internal Covariate shift
+Covariate shift refers to the change in the input distribution to a learning system. 
+In the case of deep networks, the input to each layer is affected by parameters in all the input layers. 
+So even small changes to the network get amplified down the network. 
+This leads to change in the input distribution to internal layers of the deep network and is known as internal covariate shift.
+It is well established that networks converge faster if the inputs have been whitened (ie zero mean, unit variances) 
+and are uncorrelated and internal covariate shift leads to just the opposite.
+
+2/ Vanishing Gradient
+Saturating nonlinearities (like tanh or sigmoid) can not be used for deep networks as they tend to get stuck in the saturation region 
+as the network grows deeper. Some ways around this are to use:
+  * Nonlinearities like ReLU which do not saturate
+  * Smaller learning rates
+  * Careful initializations
