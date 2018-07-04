@@ -38,3 +38,32 @@ if os.path.exists(file_name):
             data = np.asarray(data).astype(np.float32)            
             data_arr = np.concatenate((data_arr, data), axis=0)
 ---------------------------------------------------------------------------------
+
+
+---------------------------------------------------------------------------------
+% Using 'with' statement
+---------------------------------------------------------------------------------
+class myclass:
+    def __init__(self):
+        print("__init__")
+
+    def __enter__(self): 
+        print("__enter__")
+
+    def __exit__(self, type, value, traceback):
+        print("__exit__")
+
+    def __del__(self):
+        print("__del__")
+
+with myclass(): 
+    print("body")
+---------------------------------------------------------------------------------
+__init__
+__enter__
+body
+__exit__
+__del__
+---------------------------------------------------------------------------------
+
+
