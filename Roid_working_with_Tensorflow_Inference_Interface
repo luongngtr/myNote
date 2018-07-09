@@ -300,7 +300,22 @@ public class MainActivity extends AppCompatActivity {
 ---------------------------------------------------------------------
 
 
-
+// STEP 6
+// To "save as", we do as follows.
+1/ Manually copy and past the project (to create a new project from the current one)
+2/ Change the package name in two files: 
+	i) <new_project_name>\app\src\main\AndroidManifest.xml
+	ii) <new_project_name>\app\build.gradle
+3/ Change the package name in the folder name called 	
+	<new_project_name>\app\src\main\java\<old>\<package>\<name>
+4/ Change the package name in all .java files in the folder called 	
+	<new_project_name>\app\src\main\java\<new>\<package>\<name>\<file_name>.java
+5/ Open the project using Android Studio
+6/ In the menu bar, run Build/Clean Project and Build/Rebuild Project 
+7/ In the prompt (pop up bar), click "Sync bundle"
+8/ Done
+	
+	
 
 
 
