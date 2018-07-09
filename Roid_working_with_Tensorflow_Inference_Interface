@@ -46,6 +46,9 @@ android {
 
 // STEP 4
 // Use Python code editor (for example Spyder of Anaconda) to create a model file of sensor network
+// For convenience, the outputs and inputs should have two dimensions of a vector, for example, [1,784] so that 
+// 	when we freeze the graph and use it in Android Studio, we can easily declare the dimension of variable
+//	as {1, 784}.
 ---------------------------------------------------------------------
 // In some .py file
 ---------------------------------------------------------------------
@@ -136,5 +139,170 @@ private static final String MODEL_FILE = "file:///android_asset/optimized_tfdroi
 }    
 ---------------------------------------------------------------------
 
+// Another example of java code in STEP5 
+---------------------------------------------------------------------
+// File name: <project_name>/app/src/main/java/TFConnector.java 
+// (This file is in the same folder of MainActivity
+// so that we can use this file in MainActivity without any import)
+---------------------------------------------------------------------
+package com.luongfamily.pictonum;
+import android.content.Context;
+import org.tensorflow.contrib.android.TensorFlowInferenceInterface;
+import java.util.Random;
 
-(To be continue ...)
+public class TFConnector {    
+    final String MODEL_FILE = "optimized_mymnist.pb";
+    final String MODEL_FILE3 = "optimized_Assignment5_1.pb";
+    final String INPUT_NODE = "I";
+    final long[] INPUT_SIZE = {1, 784};
+    final String INPUT_NODE2 = "I2";
+    final long[] INPUT_SIZE2 = {1, 1};
+    final String INPUT_NODE3 = "z";
+    final long[] INPUT_SIZE3 = {1, 100};
+    final String INPUT_NODE4 = "y";
+    final long[] INPUT_SIZE4 = {1, 10};
+    final String OUTPUT_NODE = "O";
+   
+    TFFrozenGraphProcessor my_processor001;
+    TFFrozenGraphProcessor my_processor002;
+
+    Context context;
+
+    public TFConnector(Context context) {
+        this.context = context;
+        this.my_processor001 = new TFFrozenGraphProcessor(this.context, this.MODEL_FILE,
+                new String[]{this.INPUT_NODE, this.INPUT_NODE2}, new String[]{this.OUTPUT_NODE}, new long[]{this.INPUT_SIZE[1], this.INPUT_SIZE2[1]});
+
+        this.my_processor002 = new TFFrozenGraphProcessor(this.context, this.MODEL_FILE3,
+                new String[]{this.INPUT_NODE3, this.INPUT_NODE4}, new String[]{this.OUTPUT_NODE}, new long[]{this.INPUT_SIZE3[1], this.INPUT_SIZE4[1]});
+    }
+
+    static {
+        System.loadLibrary("tensorflow_inference");
+    }
+
+    public float[] func001(float[] inputArray) {        
+        float[][] myResult = {{0, 0, 0, 0, 0, 0, 0, 0, 0, 0}};
+        float[] inputArray2 = new float[1];
+        inputArray2[0] = (float) 0.2;
+        myResult = my_processor001.execute(new float[][]{inputArray, inputArray2}, myResult);
+        return myResult[0];
+    }
+
+    public float[] func002(float[] inputArray3) {       
+        float[] inputArray4 = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+        Random myrandom = new Random();
+        inputArray4[myrandom.nextInt(10)] = 1;
+        float[][] myResult3 = new float[1][784];
+        myResult3 = my_processor002.execute(new float[][]{inputArray3, inputArray4}, myResult3);
+        return myResult3[0];
+    }
+
+}
+
+class TFFrozenGraphProcessor {
+    final String MODEL_FILE;
+    final String[] INPUT_NODES;
+    final long[] INPUT_SIZES;
+    final String[] OUTPUT_NODES;
+
+    TensorFlowInferenceInterface inferenceInterface;
+    Context context;
+
+    public TFFrozenGraphProcessor(Context context, String fileName, String[] inputNodes, String[] outputNodes, long[] inputSizes) {
+        this.context = context;
+        this.MODEL_FILE = "file:///android_asset/" + fileName;
+        this.INPUT_NODES = inputNodes;
+        this.OUTPUT_NODES = outputNodes;
+        this.INPUT_SIZES = inputSizes;
+    }
+
+    static {
+        System.loadLibrary("tensorflow_inference");
+    }
+
+    public float[][] execute(float[][] feedData, float[][] resultStorage) {        
+        this.inferenceInterface = new TensorFlowInferenceInterface(this.context.getAssets(), this.MODEL_FILE);        
+        for (int i=0; i < this.INPUT_NODES.length; i++){            
+            this.inferenceInterface.feed(this.INPUT_NODES[i], feedData[i], new long[]{1, this.INPUT_SIZES[i]});
+        }
+
+        float[][] resultArrays = new float[resultStorage.length][resultStorage[0].length];
+        for (int i=0; i < this.OUTPUT_NODES.length; i++){            
+            this.inferenceInterface.run(new String[]{this.OUTPUT_NODES[i]});
+            float[] myResult = resultStorage[i];
+            this.inferenceInterface.fetch(this.OUTPUT_NODES[i], myResult);
+            resultArrays[i] = myResult;
+        }
+
+        return resultArrays;
+    }
+
+}
+---------------------------------------------------------------------
+
+---------------------------------------------------------------------
+// File name: <project_name>/app/src/main/java/MainActivity.java 
+---------------------------------------------------------------------
+package com.luongfamily.pictonum;
+
+import ...
+
+public class MainActivity extends AppCompatActivity {    
+
+    ********************************************************************************************* */
+    public TFConnector my_worker = new TFConnector(this);
+    //**********************************************************************************************  
+
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+	
+        ...
+	float[] inputArray = new float[intArray.length];
+	float[] myResult = my_worker.func001(inputArray);
+	...
+	float[] myResult3 = new float[784];
+	float[] myResult3 = my_worker.func002(inputArray3);
+        ...        
+                
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode){
+            case 7:
+                if(resultCode==RESULT_OK){
+                    PathHolder = data.getData();
+
+                    path_view.setText(PathHolder.getPath());
+
+                    // Display the image
+                    try {
+                        myInputStream = getContentResolver().openInputStream(PathHolder);
+                        myBitmap = BitmapFactory.decodeStream(myInputStream);
+                        image_view.setImageBitmap(myBitmap);
+
+                        //Toast.makeText(MainActivity.this, PathHolder.getPath(), Toast.LENGTH_LONG).show();
+
+                    } catch(FileNotFoundException e) {
+
+                        Toast.makeText(MainActivity.this, "File not found", Toast.LENGTH_LONG).show();
+
+                    }
+                }
+        }
+    }
+
+}
+---------------------------------------------------------------------
+
+
+
+
+
+
+
+
