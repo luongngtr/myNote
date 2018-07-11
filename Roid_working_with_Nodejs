@@ -54,7 +54,45 @@
    ---------------------------------------------------------------------------
     In the cmd, run:
     D:\myfolder> node myfile.js
-8/ 
+8/ Creat a .py file in myfolder
+   ---------------------------------------------------------------------------
+   // mypython.py
+   ---------------------------------------------------------------------------
+    # Import sys to process with Node.js
+    # Access to arg1, arg2, ... by sys.argv[1], sys.argv[2],...
+    import sys
+
+    data = 'hello, how are you? ' 
+
+    # Export data to node.js
+    print(data)
+    sys.stdout.flush()
+   ---------------------------------------------------------------------------
+9/ Modify myfile.js
+   ---------------------------------------------------------------------------
+   // myfile.js
+   ---------------------------------------------------------------------------
+    const express = require('express')
+    const app = express()
+
+    app.get('/', (req, res) => {
+
+        const { spawn } = require('child_process');
+        const pyProg = spawn('python', ['mypython.py']);
+
+        pyProg.stdout.on('data', function(data) {
+
+            console.log(data.toString());
+            res.write('Here is what returned from python:\n')
+            res.write(data);
+            res.end('end');
+        });
+    })
+
+    app.listen(1234, () => console.log('Application listening on port 1234!'))
+   ---------------------------------------------------------------------------
+10/
+
 
 
 
