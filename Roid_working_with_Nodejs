@@ -29,7 +29,7 @@
 
     }).listen(1234, '127.0.0.1');
 
-    // log what that we started listening on localhost:1337
+    // log what that we started listening on localhost:1234
     console.log('Server running at 127.0.0.1:1234');
    ---------------------------------------------------------------------------
    (If firewall asks, allow node to access the port 1234)
@@ -42,13 +42,15 @@
    ---------------------------------------------------------------------------
     var express = require('express');
 
-    var app = express.createServer();
+    var app = express();
 
     app.get('/', function(req, res){
         res.send('Hello World');
     });
 
     app.listen(1234);
+    // log what that we started listening on localhost:1234
+    console.log('Server running at 127.0.0.1:1234');
    ---------------------------------------------------------------------------
     In the cmd, run:
     D:\myfolder> node myfile.js
