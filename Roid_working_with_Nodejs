@@ -1,0 +1,36 @@
+1/ Download and install Node.js on Window
+2/ Open cmd and cd to the chosen folder:
+    C:\WINDOWS\system32> cd /d D:\myfolder
+    D:\myfolder> node
+    > 
+3/ Quit Node.js by pressing Ctr+C
+4/ To run myfile.js file in myfolder, use the following:
+   In myfolder, create a txt file called myfile and change the extension to .js
+   ---------------------------------------------------------------------------
+   // myfile.js
+   ---------------------------------------------------------------------------
+   console.log("hello!");
+   ---------------------------------------------------------------------------
+    In the cmd, run:
+    D:\myfolder> node myfile.js
+5/ Now change the content of myfile.js
+   ---------------------------------------------------------------------------
+   // myfile.js
+   ---------------------------------------------------------------------------
+   // include the http module
+    var http = require('http');
+
+    // create a webserver
+    http.createServer(function (req, res) {
+
+        // respond to any incoming http request
+        res.writeHead(200, {'Content-Type': 'text/plain'});
+        res.end('Hello World\n');
+
+    }).listen(1337, '127.0.0.1');
+
+    // log what that we started listening on localhost:1337
+    console.log('Server running at 127.0.0.1:1234');
+   ---------------------------------------------------------------------------
+   (If firewall asks, allow node to access the port 1234)
+6/ 
