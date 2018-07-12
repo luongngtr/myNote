@@ -91,7 +91,43 @@
 
     app.listen(1234, () => console.log('Application listening on port 1234!'))
    ---------------------------------------------------------------------------
-10/
+////////////////////////////////////////////////////////////////////////////////////////
+10/ npm init
+    // Install dependencies:
+    npm install --save <name_of_dependency>@<version>
+    Ex: npm install --save express mongodb@2.2.16 body-parser
+    // Install devdependencies:
+    npm install --save-dev <name_of_dependency>@<version>
+    Ex: npm install --save-dev nodemon
+    npm run dev
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+11/---------------------------------------------------------------------------
+   // myserver.js
+   ---------------------------------------------------------------------------
+    const express        = require('express');
+    const MongoClient    = require('mongodb').MongoClient;
+    const bodyParser     = require('body-parser');
+    const app            = express();
+
+    const port = 1234;
+    app.get('/', function(req, res){
+        res.send('Hello World');
+    });
+
+    app.listen(port);
+    // log what that we started listening on localhost:1234
+    console.log('Server running at 127.0.0.1:' + port);
+   ---------------------------------------------------------------------------    
+    
 
 
 
