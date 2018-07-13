@@ -100,16 +100,11 @@
     npm install --save-dev <name_of_dependency>@<version>
     Ex: npm install --save-dev nodemon
     npm run dev
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+    // To run nodemon, add "start" script as follows.
+    "scripts": {
+        "start": "nodemon my_file.js"
+      }
+       
 11/---------------------------------------------------------------------------
    // myserver.js
    ---------------------------------------------------------------------------
