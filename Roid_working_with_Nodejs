@@ -104,6 +104,13 @@
     "scripts": {
         "start": "nodemon my_file.js"
       }
+      
+   // Run the server forever
+   npm install --global forever
+   forever start mymain.js
+   forever list
+   forever stop <index_num_in_square_brackets>
+   (// More help: forever --help)
        
 11/---------------------------------------------------------------------------
    // myserver.js
