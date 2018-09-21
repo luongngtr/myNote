@@ -1,0 +1,10 @@
+Step 1: Install Visual Studio Professional 2017
+Step 2: Open Visual Studio Installer, and choose "modify", then install C++/CLI support
+Step 3: Install Qt (download a source package which is a .exe file)
+Step 4: Install the plug-in to connect Visual Studio and Qt
+        https://download.qt.io/development_releases/vsaddin/
+Step 5: Open Visual Studio, choose File/New/Project, then choose Qt/Qt GUI Application
+Step 6: After build a release of the visual studio project (in step 5), build a standalone release of Visual Studio
+        https://github.com/daviddrell/visualsc/wiki/How-to-Deploy-a-Qt-5-Application-for-Windows
+        (In visual studio 2017, we need to install the Microsoft Visual Studio 2017 Installer Setup to build a standalone release
+        Tools/Extensions and Updates/Installed -- Microsoft Visual Studio 2017 Installer Setup)
